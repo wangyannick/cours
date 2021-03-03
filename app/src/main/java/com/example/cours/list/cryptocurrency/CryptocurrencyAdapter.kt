@@ -1,4 +1,4 @@
-package com.example.coursandroidstudio.list.cryptocurrency
+package com.example.cours.list.cryptocurrency
 
 import android.content.Intent
 import android.graphics.Color
@@ -7,25 +7,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.cours.CryptocurrencyFragment
-import com.example.cours.MainActivity
 import com.example.cours.R
-import com.example.cours.api.CryptocurrencyResponse
-import com.example.cours.list.cryptocurrency.CryptocurrencyDetails
+import com.example.cours.api.CryptocurrencyListResponse
 import com.squareup.picasso.Picasso
 const val EXTRA_MESSAGE = "com.example.cours.MESSAGE"
 
-class CryptocurrencyAdapter(private var dataSet: ArrayList<CryptocurrencyResponse>) :
+class CryptocurrencyAdapter(private var dataSet: ArrayList<CryptocurrencyListResponse>) :
     RecyclerView.Adapter<CryptocurrencyAdapter.ViewHolder>() {
-
-
     /**
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).
      */
+
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        var id: String = ""
         val name: TextView
         val symbol: TextView
         val cryptoImg: ImageView
@@ -39,7 +35,7 @@ class CryptocurrencyAdapter(private var dataSet: ArrayList<CryptocurrencyRespons
         init {
             // Define click listener for the ViewHolder's View.
             name = view.findViewById(R.id.crypto_name)
-            symbol = view.findViewById(R.id.crypto_id)
+            symbol = view.findViewById(R.id.crypto_symbol)
             cryptoImg = view.findViewById(R.id.crypto_img)
             price = view.findViewById(R.id.price)
             percentChange1H = view.findViewById(R.id.percent_change_1h)
@@ -48,14 +44,14 @@ class CryptocurrencyAdapter(private var dataSet: ArrayList<CryptocurrencyRespons
 
             view.setOnClickListener {
                 val intent = Intent(view.context, CryptocurrencyDetails::class.java).apply {
-                    putExtra("EXTRA_MESSAGE", name.text.toString())
+                    putExtra("EXTRA_MESSAGE", id)
                 }
                 view.context.startActivity(intent)
             }
         }
     }
 
-    fun updateList(item: ArrayList<CryptocurrencyResponse>) {
+    fun updateList(item: ArrayList<CryptocurrencyListResponse>) {
         dataSet = item;
         notifyDataSetChanged()
 
@@ -81,6 +77,7 @@ class CryptocurrencyAdapter(private var dataSet: ArrayList<CryptocurrencyRespons
         viewHolder.percentChange1H.text = dataSet[position].quotes.EUR.percent_change_1h.toString() + "%"
         viewHolder.percentChange24H.text = dataSet[position].quotes.EUR.percent_change_24h.toString() + "%"
         viewHolder.percentChange7D.text = dataSet[position].quotes.EUR.percent_change_7d.toString() + "%"
+        viewHolder.id = dataSet[position].id
 
         if (dataSet[position].quotes.EUR.percent_change_1h.toString().contains("-"))
             viewHolder.percentChange1H.setTextColor(Color.parseColor("#FF0000"))
@@ -101,6 +98,7 @@ class CryptocurrencyAdapter(private var dataSet: ArrayList<CryptocurrencyRespons
         val link = StringBuilder()
         link.append("https://static.coincap.io/assets/icons/").append(dataSet[position].symbol.toLowerCase()).append("@2x.png")
         Picasso.get().load(link.toString()).into(viewHolder.cryptoImg)
+
     }
 
     // Return the size of your dataset (invoked by the layout manager)

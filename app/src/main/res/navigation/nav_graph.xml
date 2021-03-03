@@ -16,6 +16,6 @@
     </fragment>
     <fragment
         android:id="@+id/cryptocurrencyFragment"
-        android:name="com.example.cours.CryptocurrencyFragment"
+        android:name="com.example.cours.list.cryptocurrency.CryptocurrencyFragment"
         android:label="CryptocurrencyFragment" />
 </navigation>

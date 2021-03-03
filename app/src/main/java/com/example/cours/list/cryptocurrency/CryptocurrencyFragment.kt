@@ -1,16 +1,18 @@
-package com.example.cours
+package com.example.cours.list.cryptocurrency
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.cours.R
 import com.example.cours.api.CryptocurrencyAPI
+import com.example.cours.api.CryptocurrencyListResponse
 import com.example.cours.api.CryptocurrencyResponse
-import com.example.coursandroidstudio.list.cryptocurrency.CryptocurrencyAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -51,12 +53,12 @@ class CryptocurrencyFragment : Fragment() {
 
         val service: CryptocurrencyAPI = retrofit.create(CryptocurrencyAPI::class.java)
 
-        service.getCurrencyList().enqueue(object: Callback<ArrayList<CryptocurrencyResponse>>{
-            override fun onFailure(call: Call<ArrayList<CryptocurrencyResponse>>, t: Throwable) {
+        service.getCurrencyList().enqueue(object: Callback<ArrayList<CryptocurrencyListResponse>>{
+            override fun onFailure(call: Call<ArrayList<CryptocurrencyListResponse>>, t: Throwable) {
                 TODO("Not yet implemented")
             }
 
-            override fun onResponse(call: Call<ArrayList<CryptocurrencyResponse>>, response: Response<ArrayList<CryptocurrencyResponse>>) {
+            override fun onResponse(call: Call<ArrayList<CryptocurrencyListResponse>>, response: Response<ArrayList<CryptocurrencyListResponse>>) {
                 if (response.isSuccessful && response.body() !== null) {
                     adapter.updateList(response.body()!!)
                 }

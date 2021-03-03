@@ -1,2 +1,2 @@
-package com.example.coursandroidstudio.list.cryptocurrency
+package com.example.cours.list.cryptocurrency
 
