@@ -1,16 +1,21 @@
 package com.example.coursandroidstudio.list.cryptocurrency
 
-import android.app.Activity
+import android.content.Intent
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.example.cours.CryptocurrencyFragment
+import com.example.cours.MainActivity
 import com.example.cours.R
 import com.example.cours.api.CryptocurrencyResponse
+import com.example.cours.list.cryptocurrency.CryptocurrencyDetails
 import com.squareup.picasso.Picasso
+const val EXTRA_MESSAGE = "com.example.cours.MESSAGE"
 
 class CryptocurrencyAdapter(private var dataSet: ArrayList<CryptocurrencyResponse>) :
     RecyclerView.Adapter<CryptocurrencyAdapter.ViewHolder>() {
@@ -41,12 +46,19 @@ class CryptocurrencyAdapter(private var dataSet: ArrayList<CryptocurrencyRespons
             percentChange24H = view.findViewById(R.id.percent_change_24h)
             percentChange7D = view.findViewById(R.id.percent_change_7d)
 
+            view.setOnClickListener {
+                val intent = Intent(view.context, CryptocurrencyDetails::class.java).apply {
+                    putExtra("EXTRA_MESSAGE", name.text.toString())
+                }
+                view.context.startActivity(intent)
+            }
         }
     }
 
     fun updateList(item: ArrayList<CryptocurrencyResponse>) {
         dataSet = item;
         notifyDataSetChanged()
+
     }
 
     // Create new views (invoked by the layout manager)
@@ -89,10 +101,8 @@ class CryptocurrencyAdapter(private var dataSet: ArrayList<CryptocurrencyRespons
         val link = StringBuilder()
         link.append("https://static.coincap.io/assets/icons/").append(dataSet[position].symbol.toLowerCase()).append("@2x.png")
         Picasso.get().load(link.toString()).into(viewHolder.cryptoImg)
-
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = dataSet.size
-
 }
