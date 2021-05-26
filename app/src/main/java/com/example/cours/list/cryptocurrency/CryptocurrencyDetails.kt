@@ -1,23 +1,39 @@
 package com.example.cours.list.cryptocurrency
 
+import android.graphics.Color
+import android.graphics.Paint
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.cours.R
 import com.example.cours.api.CryptocurrencyAPI
+import com.example.cours.api.CryptocurrencyOHLCV
 import com.example.cours.api.CryptocurrencyResponse
+import com.github.mikephil.charting.charts.CandleStickChart
+import com.github.mikephil.charting.data.CandleData
+import com.github.mikephil.charting.data.CandleDataSet
+import com.github.mikephil.charting.data.CandleEntry
 import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.time.Instant
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
+import java.util.*
+
 
 class CryptocurrencyDetails : AppCompatActivity() {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cryptocurrency_details)
@@ -33,6 +49,31 @@ class CryptocurrencyDetails : AppCompatActivity() {
         val rank = findViewById<TextView>(R.id.details_rank)
         val description = findViewById<TextView>(R.id.details_description_text)
         val img = findViewById<ImageView>(R.id.details_img)
+        val candleStickChart = findViewById<CandleStickChart>(R.id.candle_stick_graph)
+
+        candleStickChart.isHighlightPerDragEnabled = true
+
+        candleStickChart.setDrawBorders(true)
+
+        candleStickChart.setBorderColor(Color.rgb(211, 211, 211))
+
+        val yAxis = candleStickChart.axisLeft
+        val rightAxis = candleStickChart.axisRight
+        yAxis.setDrawGridLines(false)
+        rightAxis.setDrawGridLines(false)
+        candleStickChart.requestDisallowInterceptTouchEvent(true)
+
+        val xAxis = candleStickChart.xAxis
+
+        xAxis.setDrawGridLines(false) // disable x axis grid lines
+
+        rightAxis.textColor = Color.WHITE
+        xAxis.granularity = 1f
+        xAxis.isGranularityEnabled = true
+        xAxis.setAvoidFirstLastClipping(true)
+
+        val l = candleStickChart.legend
+        l.isEnabled = false
 
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.coinpaprika.com/v1/")
@@ -41,7 +82,7 @@ class CryptocurrencyDetails : AppCompatActivity() {
 
         val service: CryptocurrencyAPI = retrofit.create(CryptocurrencyAPI::class.java)
 
-        service.getCurrency(message.toString()).enqueue(object: Callback<CryptocurrencyResponse> {
+        service.getCurrency(message.toString()).enqueue(object : Callback<CryptocurrencyResponse> {
             override fun onFailure(call: Call<CryptocurrencyResponse>, t: Throwable) {
                 TODO("Not yet implemented")
             }
@@ -51,19 +92,75 @@ class CryptocurrencyDetails : AppCompatActivity() {
                 response: Response<CryptocurrencyResponse>
             ) {
                 if (response.isSuccessful && response.body() !== null) {
-                    val response = response.body()!!
-                    actionbar!!.title = response.symbol
-                    name.text = response.name
-                    description.text = response.description
-                    rank.text = "#" + response.rank
+                    val resp = response.body()!!
+                    actionbar.title = resp.symbol
+                    name.text = resp.name
+                    description.text = resp.description
+                    rank.text = "#" + resp.rank
                     val link = StringBuilder()
-                    link.append("https://static.coincap.io/assets/icons/").append(response.symbol.toLowerCase()).append("@2x.png")
+                    link.append("https://static.coincap.io/assets/icons/")
+                        .append(resp.symbol.toLowerCase()).append("@2x.png")
                     Picasso.get().load(link.toString()).into(img)
                 }
             }
         })
+
+
+
+        service.getCryptocurrencyOHLCV(
+            message.toString(), DateTimeFormatter
+                .ofPattern("yyyy-MM-dd")
+                .withZone(ZoneOffset.UTC)
+                .format(Instant.now().minus(360, ChronoUnit.DAYS)).toString(), DateTimeFormatter
+                .ofPattern("yyyy-MM-dd")
+                .withZone(ZoneOffset.UTC)
+                .format(Instant.now()).toString(), "usd"
+        ).enqueue(object : Callback<ArrayList<CryptocurrencyOHLCV>> {
+            override fun onResponse(
+                call: Call<ArrayList<CryptocurrencyOHLCV>>,
+                response: Response<ArrayList<CryptocurrencyOHLCV>>
+            ) {
+                if (response.isSuccessful && response.body() !== null) {
+                    Log.d("msg", response.body().toString())
+                    val ceList = ArrayList<CandleEntry>();
+
+                    for ((index, item) in response.body()!!.withIndex()) {
+                        ceList.add(
+                            CandleEntry(
+                                index.toFloat(),
+                                item.high,
+                                item.low,
+                                item.open,
+                                item.close
+                            )
+                        )
+                    }
+
+                    val cds = CandleDataSet(ceList, "Entries")
+                    cds.color = Color.rgb(80, 80, 80)
+                    cds.shadowColor = Color.rgb(211, 211, 211)
+                    cds.shadowWidth = 0.8f
+                    cds.decreasingColor = Color.rgb(250, 128, 114)
+                    cds.decreasingPaintStyle = Paint.Style.FILL
+                    cds.increasingColor = Color.rgb(0, 139, 139)
+                    cds.increasingPaintStyle = Paint.Style.FILL
+                    cds.neutralColor = Color.LTGRAY
+                    cds.setDrawValues(false)
+                    val cd = CandleData(cds)
+                    candleStickChart.data = cd
+                    candleStickChart.invalidate()
+                }
+
+            }
+
+            override fun onFailure(call: Call<ArrayList<CryptocurrencyOHLCV>>, t: Throwable) {
+                Log.i("msggroscaca", t.toString())
+            }
+
+        })
     }
-   override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
                 finish()
