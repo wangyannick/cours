@@ -1,4 +1,4 @@
-package com.example.cours.list.cryptocurrency
+package com.example.cours.detail
 
 import android.graphics.Color
 import android.graphics.Paint
@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.cours.R
 import com.example.cours.api.CryptocurrencyOHLCV
 import com.example.cours.api.CryptocurrencyResponse
-import com.example.cours.api.Singletons
+import com.example.cours.api.SingletonsRetrofit
 import com.github.mikephil.charting.charts.CandleStickChart
 import com.github.mikephil.charting.data.CandleData
 import com.github.mikephil.charting.data.CandleDataSet
@@ -74,7 +74,7 @@ class CryptocurrencyDetails : AppCompatActivity() {
         l.isEnabled = false
 
 
-        Singletons.cryptoAPI.getCurrency(message.toString())
+        SingletonsRetrofit.cryptoAPI.getCurrency(message.toString())
             .enqueue(object : Callback<CryptocurrencyResponse> {
                 override fun onFailure(call: Call<CryptocurrencyResponse>, t: Throwable) {
                     println("failed")
@@ -98,7 +98,31 @@ class CryptocurrencyDetails : AppCompatActivity() {
                 }
             })
 
-        Singletons.cryptoAPI.getCryptocurrencyOHLCV(
+        SingletonsRetrofit.cryptoAPI.getCurrency(message.toString())
+            .enqueue(object : Callback<CryptocurrencyResponse> {
+                override fun onFailure(call: Call<CryptocurrencyResponse>, t: Throwable) {
+                    println("failed")
+                }
+
+                override fun onResponse(
+                    call: Call<CryptocurrencyResponse>,
+                    response: Response<CryptocurrencyResponse>
+                ) {
+                    if (response.isSuccessful && response.body() !== null) {
+                        val resp = response.body()!!
+                        actionbar.title = resp.symbol
+                        name.text = resp.name
+                        description.text = resp.description
+                        rank.text = "#" + resp.rank
+                        val link = StringBuilder()
+                        link.append("https://static.coincap.io/assets/icons/")
+                            .append(resp.symbol.toLowerCase()).append("@2x.png")
+                        Picasso.get().load(link.toString()).into(img)
+                    }
+                }
+            })
+
+        SingletonsRetrofit.cryptoAPI.getCryptocurrencyOHLCV(
             message.toString(), DateTimeFormatter
                 .ofPattern("yyyy-MM-dd")
                 .withZone(ZoneOffset.UTC)

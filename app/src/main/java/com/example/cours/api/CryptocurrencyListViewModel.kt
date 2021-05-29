@@ -14,7 +14,7 @@ class CryptocurrencyListViewModel: ViewModel() {
     }
 
     private fun getList() {
-        Singletons.cryptoAPI.getCurrencyList()
+        SingletonsRetrofit.cryptoAPI.getCurrencyList()
             .enqueue(object : Callback<ArrayList<CryptocurrencyListResponse>> {
                 override fun onFailure(
                     call: Call<ArrayList<CryptocurrencyListResponse>>,

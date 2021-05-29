@@ -7,7 +7,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 
-class Singletons {
+class SingletonsRetrofit {
     companion object {
         var cache: Cache = Cache(File(context?.cacheDir, "responses"), 100 * 1024 * 1024)
 

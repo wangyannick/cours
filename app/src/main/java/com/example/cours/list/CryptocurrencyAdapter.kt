@@ -1,4 +1,4 @@
-package com.example.cours.list.cryptocurrency
+package com.example.cours.list
 
 import android.content.Intent
 import android.graphics.Color
@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cours.R
 import com.example.cours.api.CryptocurrencyListResponse
+import com.example.cours.detail.CryptocurrencyDetails
 import com.squareup.picasso.Picasso
 const val EXTRA_MESSAGE = "com.example.cours.MESSAGE"
 

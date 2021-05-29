@@ -1,4 +1,4 @@
-package com.example.cours.list.cryptocurrency
+package com.example.cours.list
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,14 +10,9 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cours.R
-import com.example.cours.api.CryptocurrencyListResponse
 import com.example.cours.api.CryptocurrencyListViewModel
-import com.example.cours.api.Singletons
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.util.concurrent.TimeUnit
 
 
@@ -49,22 +44,11 @@ class CryptocurrencyFragment : Fragment() {
             adapter = this@CryptocurrencyFragment.adapter
         }
 
-        getCryptocurrencyList()
-        /* disposable = Observable.interval(1000, 5000,
-                 TimeUnit.MILLISECONDS)
-                 .observeOn(AndroidSchedulers.mainThread())
-                 .subscribe(this::getCryptocurrencyListdz, this::onError);*/
-        Observable.interval(5, TimeUnit.SECONDS)
-            .subscribe { getCryptocurrencyList() }
 
-
-    }
-
-    private fun getCryptocurrencyList() {
-        println("Reload")
         viewModel.cryptoList.observe(viewLifecycleOwner, Observer {
             adapter.updateList(it)
         })
+
     }
 
 }
