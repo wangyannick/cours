@@ -12,10 +12,9 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.cours.R
-import com.example.cours.Singletons
-import com.example.cours.api.CryptocurrencyAPI
 import com.example.cours.api.CryptocurrencyOHLCV
 import com.example.cours.api.CryptocurrencyResponse
+import com.example.cours.api.Singletons
 import com.github.mikephil.charting.charts.CandleStickChart
 import com.github.mikephil.charting.data.CandleData
 import com.github.mikephil.charting.data.CandleDataSet
@@ -24,8 +23,6 @@ import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.time.Instant
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
@@ -76,33 +73,32 @@ class CryptocurrencyDetails : AppCompatActivity() {
         val l = candleStickChart.legend
         l.isEnabled = false
 
-        val retrofit = Singletons.cryptoAPI
 
-
-        retrofit.getCurrency(message.toString()).enqueue(object : Callback<CryptocurrencyResponse> {
-            override fun onFailure(call: Call<CryptocurrencyResponse>, t: Throwable) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onResponse(
-                call: Call<CryptocurrencyResponse>,
-                response: Response<CryptocurrencyResponse>
-            ) {
-                if (response.isSuccessful && response.body() !== null) {
-                    val resp = response.body()!!
-                    actionbar.title = resp.symbol
-                    name.text = resp.name
-                    description.text = resp.description
-                    rank.text = "#" + resp.rank
-                    val link = StringBuilder()
-                    link.append("https://static.coincap.io/assets/icons/")
-                        .append(resp.symbol.toLowerCase()).append("@2x.png")
-                    Picasso.get().load(link.toString()).into(img)
+        Singletons.cryptoAPI.getCurrency(message.toString())
+            .enqueue(object : Callback<CryptocurrencyResponse> {
+                override fun onFailure(call: Call<CryptocurrencyResponse>, t: Throwable) {
+                    println("failed")
                 }
-            }
-        })
 
-        retrofit.getCryptocurrencyOHLCV(
+                override fun onResponse(
+                    call: Call<CryptocurrencyResponse>,
+                    response: Response<CryptocurrencyResponse>
+                ) {
+                    if (response.isSuccessful && response.body() !== null) {
+                        val resp = response.body()!!
+                        actionbar.title = resp.symbol
+                        name.text = resp.name
+                        description.text = resp.description
+                        rank.text = "#" + resp.rank
+                        val link = StringBuilder()
+                        link.append("https://static.coincap.io/assets/icons/")
+                            .append(resp.symbol.toLowerCase()).append("@2x.png")
+                        Picasso.get().load(link.toString()).into(img)
+                    }
+                }
+            })
+
+        Singletons.cryptoAPI.getCryptocurrencyOHLCV(
             message.toString(), DateTimeFormatter
                 .ofPattern("yyyy-MM-dd")
                 .withZone(ZoneOffset.UTC)
