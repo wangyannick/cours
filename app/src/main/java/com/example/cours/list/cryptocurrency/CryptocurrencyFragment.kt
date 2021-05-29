@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cours.R
+import com.example.cours.Singletons
 import com.example.cours.api.CryptocurrencyAPI
 import com.example.cours.api.CryptocurrencyListResponse
 import io.reactivex.Observable
@@ -31,11 +32,7 @@ class CryptocurrencyFragment : Fragment() {
     private val layoutManager = LinearLayoutManager(context)
     private var disposable: Disposable? = null
 
-    private val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.coinpaprika.com/v1/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-    private val service: CryptocurrencyAPI = retrofit.create(CryptocurrencyAPI::class.java)
+    private val retrofit = Singletons.cryptoAPI
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -66,9 +63,9 @@ class CryptocurrencyFragment : Fragment() {
 
     private fun getCryptocurrencyList() {
         println("Reload")
-        service.getCurrencyList().enqueue(object : Callback<ArrayList<CryptocurrencyListResponse>> {
+        retrofit.getCurrencyList().enqueue(object : Callback<ArrayList<CryptocurrencyListResponse>> {
             override fun onFailure(call: Call<ArrayList<CryptocurrencyListResponse>>, t: Throwable) {
-                TODO("Not yet implemented")
+                println("Failed")
             }
             override fun onResponse(call: Call<ArrayList<CryptocurrencyListResponse>>, response: Response<ArrayList<CryptocurrencyListResponse>>) {
                 if (response.isSuccessful && response.body() !== null) {

@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.cours.R
+import com.example.cours.Singletons
 import com.example.cours.api.CryptocurrencyAPI
 import com.example.cours.api.CryptocurrencyOHLCV
 import com.example.cours.api.CryptocurrencyResponse
@@ -75,14 +76,10 @@ class CryptocurrencyDetails : AppCompatActivity() {
         val l = candleStickChart.legend
         l.isEnabled = false
 
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.coinpaprika.com/v1/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+        val retrofit = Singletons.cryptoAPI
 
-        val service: CryptocurrencyAPI = retrofit.create(CryptocurrencyAPI::class.java)
 
-        service.getCurrency(message.toString()).enqueue(object : Callback<CryptocurrencyResponse> {
+        retrofit.getCurrency(message.toString()).enqueue(object : Callback<CryptocurrencyResponse> {
             override fun onFailure(call: Call<CryptocurrencyResponse>, t: Throwable) {
                 TODO("Not yet implemented")
             }
@@ -105,9 +102,7 @@ class CryptocurrencyDetails : AppCompatActivity() {
             }
         })
 
-
-
-        service.getCryptocurrencyOHLCV(
+        retrofit.getCryptocurrencyOHLCV(
             message.toString(), DateTimeFormatter
                 .ofPattern("yyyy-MM-dd")
                 .withZone(ZoneOffset.UTC)
@@ -173,5 +168,4 @@ class CryptocurrencyDetails : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         return true
     }
-
 }
