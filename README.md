@@ -21,5 +21,4 @@ git clone https://github.com/wangyannick/cours.git
 - Added one Singleton and one MVVM.
 
 ## Screenshot
-<img src="https://user-images.githubusercontent.com/49391108/120112749-66820c80-c177-11eb-9fc0-b2927b1f54c6.jpg" alt="RecyclerView" width="auto" height="500">
-<img src="https://user-images.githubusercontent.com/49391108/120112755-68e46680-c177-11eb-8c76-ebcdcc92debd.jpg" alt="Firebase Notification" width="auto" height="500">
+<img src="https://user-images.githubusercontent.com/49391108/120112749-66820c80-c177-11eb-9fc0-b2927b1f54c6.jpg" alt="RecyclerView" width="auto" height="500"> <img src="https://user-images.githubusercontent.com/49391108/120112755-68e46680-c177-11eb-8c76-ebcdcc92debd.jpg" alt="Firebase Notification" width="auto" height="500">
