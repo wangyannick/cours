@@ -4,16 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cours.R
-import com.example.cours.api.CryptocurrencyListViewModel
-import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
-import java.util.concurrent.TimeUnit
 
 
 /**
@@ -21,6 +20,7 @@ import java.util.concurrent.TimeUnit
  */
 class CryptocurrencyFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
+    private lateinit var loader: ProgressBar
     private val adapter = CryptocurrencyAdapter(arrayListOf());
     private val layoutManager = LinearLayoutManager(context)
     private var disposable: Disposable? = null
@@ -38,6 +38,7 @@ class CryptocurrencyFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
+        loader = view.findViewById<ProgressBar>(R.id.progressBar)
 
         recyclerView.apply {
             layoutManager = this@CryptocurrencyFragment.layoutManager
@@ -45,8 +46,11 @@ class CryptocurrencyFragment : Fragment() {
         }
 
 
-        viewModel.cryptoList.observe(viewLifecycleOwner, Observer {
-            adapter.updateList(it)
+        viewModel.cryptoList.observe(viewLifecycleOwner, Observer { cryptocurrencyModel ->
+            loader.isVisible = cryptocurrencyModel is CryptocurrencyListLoading
+            if (cryptocurrencyModel is CryptocurrencyListSuccess) {
+                adapter.updateList(cryptocurrencyModel.cryptocurrencyList)
+            }
         })
 
     }
