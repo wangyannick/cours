@@ -18,5 +18,5 @@ interface CryptocurrencyAPI {
         @Query("start") start: String,
         @Query("end") end: String,
         @Query("quote") quote: String
-    ): Call<ArrayList<CryptocurrencyOHLCV>>
+    ): Call<ArrayList<CryptocurrencyOHLCVResponse>>
 }

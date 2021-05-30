@@ -12,7 +12,7 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.cours.R
-import com.example.cours.api.CryptocurrencyOHLCV
+import com.example.cours.api.CryptocurrencyOHLCVResponse
 import com.example.cours.api.CryptocurrencyResponse
 import com.example.cours.api.SingletonsRetrofit
 import com.github.mikephil.charting.charts.CandleStickChart
@@ -73,11 +73,14 @@ class CryptocurrencyDetails : AppCompatActivity() {
         val l = candleStickChart.legend
         l.isEnabled = false
 
+/*
+        Get cryptocurrency information
 
+*/
         SingletonsRetrofit.cryptoAPI.getCurrency(message.toString())
             .enqueue(object : Callback<CryptocurrencyResponse> {
                 override fun onFailure(call: Call<CryptocurrencyResponse>, t: Throwable) {
-                    println("failed")
+                    println("Failed")
                 }
 
                 override fun onResponse(
@@ -98,29 +101,9 @@ class CryptocurrencyDetails : AppCompatActivity() {
                 }
             })
 
-        SingletonsRetrofit.cryptoAPI.getCurrency(message.toString())
-            .enqueue(object : Callback<CryptocurrencyResponse> {
-                override fun onFailure(call: Call<CryptocurrencyResponse>, t: Throwable) {
-                    println("failed")
-                }
-
-                override fun onResponse(
-                    call: Call<CryptocurrencyResponse>,
-                    response: Response<CryptocurrencyResponse>
-                ) {
-                    if (response.isSuccessful && response.body() !== null) {
-                        val resp = response.body()!!
-                        actionbar.title = resp.symbol
-                        name.text = resp.name
-                        description.text = resp.description
-                        rank.text = "#" + resp.rank
-                        val link = StringBuilder()
-                        link.append("https://static.coincap.io/assets/icons/")
-                            .append(resp.symbol.toLowerCase()).append("@2x.png")
-                        Picasso.get().load(link.toString()).into(img)
-                    }
-                }
-            })
+        /*
+             Get cryptocurrency graph information
+        */
 
         SingletonsRetrofit.cryptoAPI.getCryptocurrencyOHLCV(
             message.toString(), DateTimeFormatter
@@ -130,15 +113,13 @@ class CryptocurrencyDetails : AppCompatActivity() {
                 .ofPattern("yyyy-MM-dd")
                 .withZone(ZoneOffset.UTC)
                 .format(Instant.now()).toString(), "usd"
-        ).enqueue(object : Callback<ArrayList<CryptocurrencyOHLCV>> {
+        ).enqueue(object : Callback<ArrayList<CryptocurrencyOHLCVResponse>> {
             override fun onResponse(
-                call: Call<ArrayList<CryptocurrencyOHLCV>>,
-                response: Response<ArrayList<CryptocurrencyOHLCV>>
+                call: Call<ArrayList<CryptocurrencyOHLCVResponse>>,
+                response: Response<ArrayList<CryptocurrencyOHLCVResponse>>
             ) {
                 if (response.isSuccessful && response.body() !== null) {
-                    Log.d("msg", response.body().toString())
                     val ceList = ArrayList<CandleEntry>();
-
                     for ((index, item) in response.body()!!.withIndex()) {
                         ceList.add(
                             CandleEntry(
@@ -168,8 +149,11 @@ class CryptocurrencyDetails : AppCompatActivity() {
 
             }
 
-            override fun onFailure(call: Call<ArrayList<CryptocurrencyOHLCV>>, t: Throwable) {
-                Log.i("msggroscaca", t.toString())
+            override fun onFailure(
+                call: Call<ArrayList<CryptocurrencyOHLCVResponse>>,
+                t: Throwable
+            ) {
+                println("Failed")
             }
 
         })

@@ -1,6 +1,6 @@
 package com.example.cours.api
 
-data class CryptocurrencyOHLCV(
+data class CryptocurrencyOHLCVResponse(
     val time_open: String,
     val time_close: String,
     val open: Float,

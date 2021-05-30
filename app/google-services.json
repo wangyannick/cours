@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "227883526376",
+    "project_id": "mobile-projet-esiea",
+    "storage_bucket": "mobile-projet-esiea.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:227883526376:android:812309e8c2c0a76a72815d",
+        "android_client_info": {
+          "package_name": "com.example.cours"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "227883526376-af1f9g43gb3plmidjkr6ggg01clurhqc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5L3EiZ1ofC68t7DR1Qu2CYa3EHuaWgqI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "227883526376-af1f9g43gb3plmidjkr6ggg01clurhqc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
