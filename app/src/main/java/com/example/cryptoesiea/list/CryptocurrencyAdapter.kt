@@ -12,7 +12,7 @@ import com.example.cryptoesiea.R
 import com.example.cryptoesiea.api.CryptocurrencyListResponse
 import com.example.cryptoesiea.detail.CryptocurrencyDetails
 import com.squareup.picasso.Picasso
-const val EXTRA_MESSAGE = "com.example.cours.MESSAGE"
+const val EXTRA_MESSAGE = "com.example.cryptoesiea.MESSAGE"
 
 class CryptocurrencyAdapter(private var dataSet: ArrayList<CryptocurrencyListResponse>) :
     RecyclerView.Adapter<CryptocurrencyAdapter.ViewHolder>() {
