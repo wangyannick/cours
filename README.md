@@ -1,4 +1,5 @@
 # PROJET MOBILE - 3A UFA - WANG Yannick
+[![CI](https://github.com/wangyannick/projet-mobile/actions/workflows/blank.yml/badge.svg)](https://github.com/wangyannick/projet-mobile/actions/workflows/blank.yml)
 [![CircleCI](https://circleci.com/gh/circleci/circleci-docs.svg?style=svg)](https://circleci.com/gh/circleci/circleci-docs)
 
 ### About the project
