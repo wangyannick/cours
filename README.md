@@ -1,4 +1,3 @@
-![21-05-30-22-24-42](https://user-images.githubusercontent.com/49391108/120119168-7ceb9080-c196-11eb-9dac-5129cde177e6.gif)
 # PROJET MOBILE - 3A UFA - WANG Yannick
 [![CircleCI](https://circleci.com/gh/circleci/circleci-docs.svg?style=svg)](https://circleci.com/gh/circleci/circleci-docs)
 
