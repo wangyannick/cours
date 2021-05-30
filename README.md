@@ -1,4 +1,5 @@
 # PROJET MOBILE - 3A UFA - WANG Yannick
+[![CircleCI](https://circleci.com/gh/circleci/circleci-docs.svg?style=svg)](https://circleci.com/gh/circleci/circleci-docs)
 
 ### Prerequisites
 -   Install Android Studio  
