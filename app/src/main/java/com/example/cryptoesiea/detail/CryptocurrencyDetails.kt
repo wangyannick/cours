@@ -7,9 +7,13 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import com.example.cryptoesiea.CryptoApplication
 import com.example.cryptoesiea.R
 import com.example.cryptoesiea.api.CryptocurrencyOHLCVResponse
 import com.example.cryptoesiea.api.CryptocurrencyResponse
@@ -47,10 +51,12 @@ class CryptocurrencyDetails : AppCompatActivity() {
         val description = findViewById<TextView>(R.id.details_description_text)
         val img = findViewById<ImageView>(R.id.details_img)
         val candleStickChart = findViewById<CandleStickChart>(R.id.candle_stick_graph)
+        val progressBar = findViewById<ProgressBar>(R.id.progressBarDetail)
 
         candleStickChart.isHighlightPerDragEnabled = true
 
         candleStickChart.setDrawBorders(true)
+        candleStickChart.description.isEnabled = false
 
         candleStickChart.setBorderColor(Color.rgb(211, 211, 211))
 
@@ -72,14 +78,21 @@ class CryptocurrencyDetails : AppCompatActivity() {
         val l = candleStickChart.legend
         l.isEnabled = false
 
-/*
+        /*
         Get cryptocurrency information
-
+        */
+/*
+        progressBar.isVisible = true
 */
         SingletonsRetrofit.cryptoAPI.getCurrency(message.toString())
             .enqueue(object : Callback<CryptocurrencyResponse> {
                 override fun onFailure(call: Call<CryptocurrencyResponse>, t: Throwable) {
-                    println("Failed")
+                    Toast.makeText(
+                        CryptoApplication.context,
+                        "Oups, une erreur est survenue !",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
                 }
 
                 override fun onResponse(
@@ -87,6 +100,7 @@ class CryptocurrencyDetails : AppCompatActivity() {
                     response: Response<CryptocurrencyResponse>
                 ) {
                     if (response.isSuccessful && response.body() !== null) {
+                        progressBar.isVisible = false
                         val resp = response.body()!!
                         actionbar.title = resp.symbol
                         name.text = resp.name
@@ -118,7 +132,8 @@ class CryptocurrencyDetails : AppCompatActivity() {
                 response: Response<ArrayList<CryptocurrencyOHLCVResponse>>
             ) {
                 if (response.isSuccessful && response.body() !== null) {
-                    val ceList = ArrayList<CandleEntry>();
+                    progressBar.isVisible = false
+                    val ceList = ArrayList<CandleEntry>()
                     for ((index, item) in response.body()!!.withIndex()) {
                         ceList.add(
                             CandleEntry(
@@ -130,7 +145,6 @@ class CryptocurrencyDetails : AppCompatActivity() {
                             )
                         )
                     }
-
                     val cds = CandleDataSet(ceList, "Entries")
                     cds.color = Color.rgb(80, 80, 80)
                     cds.shadowColor = Color.rgb(211, 211, 211)
@@ -145,16 +159,20 @@ class CryptocurrencyDetails : AppCompatActivity() {
                     candleStickChart.data = cd
                     candleStickChart.invalidate()
                 }
-
             }
 
             override fun onFailure(
                 call: Call<ArrayList<CryptocurrencyOHLCVResponse>>,
                 t: Throwable
             ) {
-                println("Failed")
+                progressBar.isVisible = false
+                Toast.makeText(
+                    CryptoApplication.context,
+                    "Oups, une erreur est survenue !",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
             }
-
         })
     }
 
