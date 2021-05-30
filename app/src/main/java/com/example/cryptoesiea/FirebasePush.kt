@@ -1,4 +1,4 @@
-package com.example.cours
+package com.example.cryptoesiea
 
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService

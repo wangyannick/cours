@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.example.cours.FirstFragment"
+        android:name="com.example.cryptoesiea.FirstFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_first">
         <action
@@ -16,6 +16,6 @@
     </fragment>
     <fragment
         android:id="@+id/cryptocurrencyFragment"
-        android:name="com.example.cours.list.CryptocurrencyFragment"
+        android:name="com.example.cryptoesiea.list.CryptocurrencyFragment"
         android:label="CryptocurrencyFragment" />
 </navigation>

@@ -1,6 +1,6 @@
-package com.example.cours.api
+package com.example.cryptoesiea.api
 
-import com.example.cours.CryptoApplication.Companion.context
+import com.example.cryptoesiea.CryptoApplication.Companion.context
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit

@@ -1,4 +1,4 @@
-package com.example.cours
+package com.example.cryptoesiea
 
 import android.app.Application
 import android.content.Context

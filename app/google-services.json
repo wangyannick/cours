@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "227883526376",
-    "project_id": "mobile-projet-esiea",
-    "storage_bucket": "mobile-projet-esiea.appspot.com"
+    "project_number": "659300068955",
+    "project_id": "projet-mobile-be3bc",
+    "storage_bucket": "projet-mobile-be3bc.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:227883526376:android:812309e8c2c0a76a72815d",
+        "mobilesdk_app_id": "1:659300068955:android:2dd1c0705435be9b6f197e",
         "android_client_info": {
-          "package_name": "com.example.cours"
+          "package_name": "com.example.cryptoesiea"
         }
       },
       "oauth_client": [
         {
-          "client_id": "227883526376-af1f9g43gb3plmidjkr6ggg01clurhqc.apps.googleusercontent.com",
+          "client_id": "659300068955-f5scjvkmtili3fpeni4arm3feanikjli.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB5L3EiZ1ofC68t7DR1Qu2CYa3EHuaWgqI"
+          "current_key": "AIzaSyD6lMJ9TzmeBEJGJsqIJm1j0ZAyPE5gbQk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "227883526376-af1f9g43gb3plmidjkr6ggg01clurhqc.apps.googleusercontent.com",
+              "client_id": "659300068955-f5scjvkmtili3fpeni4arm3feanikjli.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
