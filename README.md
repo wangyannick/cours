@@ -8,7 +8,7 @@ Simple project done in Kotlin with coinpaprika's API, showing all the cryptocurr
 -   Install Android Studio  
 -   Checkout Project
 ```
-git clone https://github.com/wangyannick/cours.git
+git clone https://github.com/wangyannick/projet-mobile.git
 ```
 
 ##  Done on the application
