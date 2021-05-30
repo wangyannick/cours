@@ -1,20 +1,19 @@
-package com.example.cours.detail
+package com.example.cryptoesiea.detail
 
 import android.graphics.Color
 import android.graphics.Paint
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.example.cours.R
-import com.example.cours.api.CryptocurrencyOHLCVResponse
-import com.example.cours.api.CryptocurrencyResponse
-import com.example.cours.api.SingletonsRetrofit
+import com.example.cryptoesiea.R
+import com.example.cryptoesiea.api.CryptocurrencyOHLCVResponse
+import com.example.cryptoesiea.api.CryptocurrencyResponse
+import com.example.cryptoesiea.api.SingletonsRetrofit
 import com.github.mikephil.charting.charts.CandleStickChart
 import com.github.mikephil.charting.data.CandleData
 import com.github.mikephil.charting.data.CandleDataSet

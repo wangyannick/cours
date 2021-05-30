@@ -1,6 +1,6 @@
-package com.example.cours.list
+package com.example.cryptoesiea.list
 
-import com.example.cours.api.CryptocurrencyListResponse
+import com.example.cryptoesiea.api.CryptocurrencyListResponse
 
 sealed class CryptocurrencyModel
 
