@@ -1,4 +1,4 @@
-package com.example.cours.list
+package com.example.cryptoesiea.list
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.cours.R
+import com.example.cryptoesiea.R
 import io.reactivex.disposables.Disposable
 
 

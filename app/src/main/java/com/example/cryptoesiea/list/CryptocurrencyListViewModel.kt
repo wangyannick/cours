@@ -1,11 +1,11 @@
-package com.example.cours.list
+package com.example.cryptoesiea.list
 
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.cours.CryptoApplication.Companion.context
-import com.example.cours.api.CryptocurrencyListResponse
-import com.example.cours.api.SingletonsRetrofit
+import com.example.cryptoesiea.CryptoApplication.Companion.context
+import com.example.cryptoesiea.api.CryptocurrencyListResponse
+import com.example.cryptoesiea.api.SingletonsRetrofit
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

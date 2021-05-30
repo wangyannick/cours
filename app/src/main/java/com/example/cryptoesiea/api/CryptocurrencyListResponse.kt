@@ -1,4 +1,4 @@
-package com.example.cours.api
+package com.example.cryptoesiea.api
 
 data class CryptocurrencyListResponse(
         val id: String,
